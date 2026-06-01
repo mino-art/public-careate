@@ -1385,6 +1385,7 @@ function processNextPhoto() {
 }
 
 function confirmPhotoUpload() {
+  alert('올리기 시작: ' + (pendingPhotoData ? '데이터있음(' + Math.round(pendingPhotoData.length/1024) + 'KB)' : '데이터없음'));
   if (!pendingPhotoData) return;
   const photo = {
     src: pendingPhotoData,
@@ -1395,9 +1396,10 @@ function confirmPhotoUpload() {
   try {
     db.photos.push(photo);
     saveData();
+    alert('저장성공!');
   } catch(e) {
     db.photos.pop();
-    alert('저장 공간이 부족해요. 기존 사진을 일부 삭제 후 다시 시도해주세요.');
+    alert('저장실패: ' + e.message);
     return;
   }
   closeModal('captionModal');
