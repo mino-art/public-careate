@@ -1,0 +1,1670 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>경찰 281기 동기 모임</title>
+<style>
+  :root {
+    --navy: #1b3a4b;
+    --navy2: #234e62;
+    --teal: #2e7d8c;
+    --teal2: #3a9aad;
+    --gold: #c9a84c;
+    --gold2: #e8c86a;
+    --bg: #eef2f5;
+    --card: #ffffff;
+    --text: #1e2a3a;
+    --sub: #6b7a90;
+    --green: #27ae60;
+    --red: #e74c3c;
+    --orange: #e67e22;
+    --border: #dde3ec;
+    --shadow: 0 2px 16px rgba(27,58,75,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+  html { overflow-x: hidden; width: 100%; }
+  body { font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; width: 100%; position: relative; }
+
+  /* HERO */
+  .hero {
+    position: relative; width: 100%; height: 400px; overflow: hidden;
+    margin-bottom: 0;
+  }
+  .hero-img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
+    display: block;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(27,58,75,0.45) 0%, rgba(27,58,75,0.75) 60%, rgba(27,58,75,0.95) 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .hero-badge {
+    background: var(--gold); color: var(--navy);
+    font-weight: 900; font-size: 13px; letter-spacing: 1px;
+    padding: 5px 16px; border-radius: 20px;
+    margin-bottom: 14px; display: inline-block;
+    box-shadow: 0 3px 12px rgba(201,168,76,0.5);
+  }
+  .hero-title {
+    color: white; font-size: 36px; font-weight: 900;
+    letter-spacing: -1px; line-height: 1.2; margin-bottom: 8px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  .hero-sub {
+    color: rgba(255,255,255,0.8); font-size: 15px;
+    margin-bottom: 28px; letter-spacing: 0.5px;
+  }
+  .hero-stats {
+    display: flex; gap: 32px; justify-content: center;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat-num { color: var(--gold2); font-size: 26px; font-weight: 800; }
+  .hero-stat-label { color: rgba(255,255,255,0.65); font-size: 12px; margin-top: 2px; }
+
+  @media (max-width: 640px) {
+    .hero { height: 280px; }
+    .hero-title { font-size: 26px; }
+    .hero-stats { gap: 20px; }
+    .hero-stat-num { font-size: 20px; }
+  }
+
+  /* NAV */
+  nav {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+    color: white;
+    padding: 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .nav-title { display: flex; align-items: center; gap: 12px; }
+  .nav-badge {
+    background: var(--gold); color: var(--navy);
+    font-weight: 800; font-size: 18px;
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(201,168,76,0.5);
+  }
+  .nav-title h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+  .nav-title p { font-size: 12px; opacity: 0.7; margin-top: 1px; }
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+  .admin-btn {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+    color: white; padding: 7px 16px; border-radius: 20px;
+    cursor: pointer; font-size: 13px; transition: all .2s;
+  }
+  .admin-btn:hover { background: rgba(255,255,255,0.22); }
+  .admin-btn.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 700; }
+  .nav-tabs {
+    display: flex; overflow-x: auto; padding: 0 12px;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 12px 18px; font-size: 14px; font-weight: 500;
+    color: rgba(255,255,255,0.6); cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap; transition: all .2s;
+  }
+  .nav-tab:hover { color: rgba(255,255,255,0.9); }
+  .nav-tab.active { color: var(--gold2); border-bottom-color: var(--gold2); font-weight: 700; }
+
+  /* PAGES */
+  .page { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; overflow-x: hidden; width: 100%; }
+  .page.active { display: block; }
+  #page-dashboard { padding: 0; width: 100%; }
+  #page-dashboard .stats-grid { padding: 16px 16px 0; }
+  #page-dashboard #dashCols { padding: 0 16px 16px; }
+
+  /* CARDS */
+  .card {
+    background: var(--card); border-radius: 16px;
+    box-shadow: var(--shadow); padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-size: 16px; font-weight: 700; color: var(--navy);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .card-title .icon { font-size: 20px; }
+
+  /* DASHBOARD */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .stat-card {
+    background: var(--card); border-radius: 14px; padding: 20px;
+    box-shadow: var(--shadow); text-align: center;
+    border-top: 4px solid var(--navy);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .stat-card:active { transform: scale(0.96); }
+  .stat-card.green { border-top-color: var(--green); }
+  .stat-card.red { border-top-color: var(--red); }
+  .stat-card.gold { border-top-color: var(--gold); }
+  .stat-card.orange { border-top-color: var(--orange); }
+  .stat-num { font-size: 32px; font-weight: 800; color: var(--navy); }
+  .stat-card.green .stat-num { color: var(--green); }
+  .stat-card.red .stat-num { color: var(--red); }
+  .stat-card.gold .stat-num { color: var(--gold); }
+  .stat-card.orange .stat-num { color: var(--orange); }
+  .stat-label { font-size: 12px; color: var(--sub); margin-top: 4px; }
+
+  /* MEMBER TABLE */
+  .member-controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .search-input {
+    flex: 1; min-width: 200px; padding: 10px 16px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 14px; outline: none;
+    transition: border-color .2s;
+  }
+  .search-input:focus { border-color: var(--navy); }
+  .btn {
+    padding: 10px 18px; border-radius: 10px; border: none;
+    font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s;
+  }
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy2); }
+  .btn-gold { background: var(--gold); color: var(--navy); }
+  .btn-gold:hover { background: var(--gold2); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+  .btn-danger { background: #ffeaea; color: var(--red); }
+  .btn-danger:hover { background: var(--red); color: white; }
+  .btn-success { background: #e8f8ef; color: var(--green); }
+  .btn-success:hover { background: var(--green); color: white; }
+  .btn-outline { background: white; color: var(--navy); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--navy); }
+
+  .member-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .member-table th {
+    background: #f7f9fc; color: var(--sub); font-weight: 600;
+    padding: 12px 14px; text-align: left;
+    border-bottom: 2px solid var(--border); white-space: nowrap;
+  }
+  .member-table td { padding: 11px 14px; border-bottom: 1px solid #f0f2f5; vertical-align: middle; }
+  .member-table tr:hover td { background: #fafbff; }
+  .member-table tr:last-child td { border-bottom: none; }
+
+  .badge {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 600;
+  }
+  .badge-paid { background: #e8f8ef; color: var(--green); }
+  .badge-partial { background: #fff4e5; color: var(--orange); }
+  .badge-unpaid { background: #ffeaea; color: var(--red); }
+  .badge-exempt { background: #e8e8ff; color: #5555cc; }
+
+  .month-pills { display: flex; gap: 4px; flex-wrap: wrap; }
+  .month-pill {
+    width: 26px; height: 26px; border-radius: 50%;
+    font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    cursor: default;
+  }
+  .pill-paid { background: var(--green); color: white; }
+  .pill-unpaid { background: #eee; color: #aaa; }
+  .pill-exempt { background: #c8c8ff; color: #5555cc; }
+  .pill-clickable { cursor: pointer; transition: transform .15s; }
+  .pill-clickable:hover { transform: scale(1.15); }
+
+  /* BALANCE */
+  .balance-display {
+    background: linear-gradient(135deg, var(--navy) 0%, #2d4a7a 100%);
+    color: white; border-radius: 16px; padding: 28px;
+    text-align: center; margin-bottom: 20px;
+  }
+  .balance-amount { font-size: 42px; font-weight: 800; color: var(--gold2); }
+  .balance-label { font-size: 14px; opacity: 0.7; margin-top: 6px; }
+  .ledger-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .ledger-table th {
+    background: #f7f9fc; padding: 10px 14px; text-align: left;
+    border-bottom: 2px solid var(--border); color: var(--sub); font-weight: 600;
+  }
+  .ledger-table td { padding: 10px 14px; border-bottom: 1px solid #f0f2f5; }
+  .ledger-table tr:last-child td { border-bottom: none; }
+  .amount-in { color: var(--green); font-weight: 600; }
+  .amount-out { color: var(--red); font-weight: 600; }
+
+  /* GALLERY */
+  .photo-upload-area {
+    border: 2px dashed var(--border); border-radius: 14px;
+    padding: 32px; text-align: center; cursor: pointer;
+    transition: all .2s; margin-bottom: 20px;
+    background: #fafbff;
+  }
+  .photo-upload-area:hover { border-color: var(--navy); background: #f0f4ff; }
+  .photo-upload-area p { color: var(--sub); font-size: 14px; margin-top: 8px; }
+  .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .photo-item {
+    border-radius: 12px; overflow: hidden;
+    box-shadow: var(--shadow); position: relative; group: true;
+    background: #eee;
+  }
+  .photo-item img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+  .photo-info {
+    padding: 10px 12px; background: white;
+    font-size: 12px; color: var(--sub);
+  }
+  .photo-info .photo-caption { font-size: 13px; font-weight: 600; color: var(--text); }
+  .photo-del-btn {
+    position: absolute; top: 6px; right: 6px;
+    background: rgba(0,0,0,0.5); color: white;
+    border: none; border-radius: 50%; width: 26px; height: 26px;
+    font-size: 14px; cursor: pointer; display: none; align-items: center; justify-content: center;
+  }
+  .photo-item:hover .photo-del-btn { display: flex; }
+
+  /* RULES */
+  .rules-section { margin-bottom: 20px; }
+  .rules-section h3 {
+    font-size: 15px; font-weight: 700; color: var(--navy);
+    padding: 12px 16px; background: #f0f4ff;
+    border-radius: 10px; margin-bottom: 12px;
+    border-left: 4px solid var(--navy);
+  }
+  .rules-list { list-style: none; padding: 0 8px; }
+  .rules-list li {
+    padding: 9px 12px; font-size: 14px; color: var(--text);
+    border-bottom: 1px solid #f0f2f5; display: flex; align-items: flex-start; gap: 8px;
+  }
+  .rules-list li:last-child { border-bottom: none; }
+  .rules-list li::before { content: '·'; color: var(--gold); font-weight: 900; font-size: 18px; line-height: 1.2; }
+
+  /* NOTICES */
+  .notice-item {
+    border: 1px solid var(--border); border-radius: 12px; padding: 18px;
+    margin-bottom: 12px; transition: box-shadow .2s;
+  }
+  .notice-item:hover { box-shadow: var(--shadow); }
+  .notice-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .notice-body { font-size: 14px; color: #444; line-height: 1.7; white-space: pre-wrap; }
+  .notice-meta { font-size: 12px; color: var(--sub); margin-top: 8px; }
+  .notice-pin { background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-right: 6px; }
+
+  /* EVENTS */
+  .event-item {
+    display: flex; gap: 16px; padding: 16px;
+    border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px;
+    align-items: flex-start; transition: box-shadow .2s;
+  }
+  .event-item:hover { box-shadow: var(--shadow); }
+  .event-date-box {
+    background: var(--navy); color: white; border-radius: 10px;
+    padding: 10px 14px; text-align: center; min-width: 56px;
+    flex-shrink: 0;
+  }
+  .event-date-box .month { font-size: 11px; opacity: 0.7; }
+  .event-date-box .day { font-size: 22px; font-weight: 800; }
+  .event-info h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .event-info p { font-size: 13px; color: var(--sub); }
+
+  /* GUESTBOOK */
+  .guestbook-form { background: #f7f9fc; border-radius: 12px; padding: 18px; margin-bottom: 20px; }
+  .guestbook-input {
+    width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 14px; outline: none; margin-bottom: 10px;
+    font-family: inherit; resize: vertical;
+  }
+  .guestbook-input:focus { border-color: var(--navy); }
+  .guestbook-item {
+    border-bottom: 1px solid #f0f2f5; padding: 14px 0;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .guestbook-item:last-child { border-bottom: none; }
+  .guestbook-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--navy); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; flex-shrink: 0;
+  }
+  .guestbook-content .author { font-size: 14px; font-weight: 700; }
+  .guestbook-content .message { font-size: 14px; color: #444; margin-top: 3px; line-height: 1.6; }
+  .guestbook-content .date { font-size: 12px; color: var(--sub); margin-top: 4px; }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55); z-index: 200;
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: white; border-radius: 18px; padding: 28px;
+    width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal h3 { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--navy); }
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 13px; font-weight: 600; color: var(--sub); margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%; padding: 11px 14px; border: 1px solid var(--border);
+    border-radius: 10px; font-size: 14px; outline: none; font-family: inherit;
+    transition: border-color .2s;
+  }
+  .form-input:focus { border-color: var(--navy); }
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+
+  /* PROGRESS BAR */
+  .progress-bar { background: #eee; border-radius: 10px; height: 8px; overflow: hidden; margin-top: 8px; }
+  .progress-fill { background: linear-gradient(90deg, var(--green), #2ecc71); height: 100%; border-radius: 10px; transition: width .5s; }
+
+  /* ALERTS */
+  .alert { padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; font-size: 14px; }
+  .alert-warning { background: #fff4e5; color: #b85c00; border: 1px solid #ffe0b2; }
+  .alert-info { background: #e8f4fd; color: #1565c0; border: 1px solid #bbdefb; }
+
+  /* EMPTY STATE */
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--sub); }
+  .empty-state .emoji { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .page { padding: 12px; }
+    .card { padding: 14px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .balance-amount { font-size: 28px; }
+    .nav-title h1 { font-size: 15px; }
+    .nav-tab { padding: 10px 12px; font-size: 13px; }
+    .hero { height: 260px; }
+    .hero-title { font-size: 22px; }
+    .hero-stats { gap: 14px; }
+    .hero-stat-num { font-size: 18px; }
+    .hero-badge { font-size: 11px; }
+
+    /* 회원 테이블 → 모바일 카드 */
+    .member-table thead { display: none; }
+    .member-table, .member-table tbody, .member-table tr, .member-table td { display: block; width: 100%; }
+    .member-table tr {
+      background: white; border-radius: 12px; margin-bottom: 12px;
+      padding: 14px; box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+      border: 1px solid var(--border);
+    }
+    .member-table tr:hover td { background: transparent; }
+    .member-table td { border: none; padding: 3px 0; font-size: 13px; }
+    .member-table td:first-child { font-size: 11px; color: var(--sub); }
+    .member-table td:nth-child(2) { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
+    .month-pills { flex-wrap: wrap; gap: 3px; }
+    .month-pill { width: 24px; height: 24px; font-size: 10px; }
+
+    /* 장부 테이블 모바일 */
+    .ledger-table thead { display: none; }
+    .ledger-table, .ledger-table tbody, .ledger-table tr, .ledger-table td { display: block; width: 100%; }
+    .ledger-table tr {
+      background: white; border-radius: 10px; margin-bottom: 8px;
+      padding: 12px 14px; box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+      border: 1px solid var(--border); position: relative;
+    }
+    .ledger-table tr[style*="background:#fff8f8"] { background: #fff8f8 !important; border-left: 3px solid var(--red); }
+    .ledger-table td { border: none; padding: 2px 0; font-size: 13px; }
+    .ledger-table td:nth-child(2) { font-size: 14px; font-weight: 600; margin: 2px 0; }
+    .ledger-table td:nth-child(4) { font-size: 15px; font-weight: 700; }
+    .ledger-table td:nth-child(5) { font-size: 12px; color: var(--sub); }
+
+    /* 지출 카드 모바일 */
+    .expense-item { padding: 12px; }
+    .expense-amount { font-size: 15px; }
+
+    /* 대시보드 컬럼 */
+    #dashCols { grid-template-columns: 1fr !important; }
+
+    /* 이벤트 */
+    .event-item { flex-wrap: wrap; gap: 10px; }
+  }
+
+  /* LEDGER FILTER TABS */
+  .ledger-filter-btn {
+    padding: 7px 16px; border-radius: 20px; border: 1px solid var(--border);
+    background: white; font-size: 13px; font-weight: 600; cursor: pointer;
+    color: var(--sub); transition: all .2s;
+  }
+  .ledger-filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .ledger-filter-btn.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+  /* EXPENSE CARD */
+  .expense-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-radius: 12px;
+    background: #fff5f5; border: 1px solid #ffd7d7;
+    margin-bottom: 10px;
+  }
+  .expense-item:last-child { margin-bottom: 0; }
+  .expense-icon { font-size: 22px; margin-right: 12px; }
+  .expense-info { flex: 1; }
+  .expense-info .title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .expense-info .date { font-size: 12px; color: var(--sub); margin-top: 2px; }
+  .expense-amount { font-size: 18px; font-weight: 800; color: var(--red); }
+
+  .tag-admin { display: inline-block; background: var(--gold); color: var(--navy); font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 6px; margin-left: 6px; }
+  .hidden { display: none !important; }
+  .text-center { text-align: center; }
+  .mt-16 { margin-top: 16px; }
+  .flex { display: flex; }
+  .gap-8 { gap: 8px; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+
+  /* Lightbox */
+  .lightbox {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.9); z-index: 300;
+    align-items: center; justify-content: center;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; border-radius: 8px; }
+  .lightbox-close {
+    position: fixed; top: 20px; right: 24px;
+    color: white; font-size: 32px; cursor: pointer; opacity: 0.8;
+  }
+  .lightbox-close:hover { opacity: 1; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-header">
+    <div class="nav-title">
+      <div class="nav-badge">281</div>
+      <div>
+        <h1>경찰 281기 동기 모임 👮</h1>
+        <p>We Are One, 281기</p>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="admin-btn" id="adminBtn" onclick="toggleAdmin()">🔐 관리자</button>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showPage('dashboard')">🏠 대시보드</div>
+    <div class="nav-tab" onclick="showPage('members')">👥 회원 명단</div>
+    <div class="nav-tab" onclick="showPage('finance')">💰 회비 장부</div>
+    <div class="nav-tab" onclick="showPage('gallery')">📸 추억 사진</div>
+    <div class="nav-tab" onclick="showPage('rules')">📋 회칙</div>
+    <div class="nav-tab" onclick="showPage('notices')">📢 공지사항</div>
+    <div class="nav-tab" onclick="showPage('events')">📅 모임 일정</div>
+    <div class="nav-tab" onclick="showPage('guestbook')">💬 방명록</div>
+  </div>
+</nav>
+
+<!-- ============================== DASHBOARD ============================== -->
+<div class="page active" id="page-dashboard">
+  <!-- HERO -->
+  <div class="hero" id="heroSection" style="border-radius:0">
+    <img class="hero-img" src="./hero.jpeg" alt="281기 단체사진">
+    <div class="hero-overlay">
+      <div class="hero-badge">👮 경찰 제281기 동기 모임</div>
+      <div class="hero-title">We Are One, 281기</div>
+      <div class="hero-sub">함께여서 더 빛나는 우리들의 이야기</div>
+      <div class="hero-stats" id="heroStats"></div>
+    </div>
+  </div>
+  <div class="stats-grid" id="statsGrid"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" id="dashCols">
+    <div>
+      <div class="card">
+        <div class="card-title"><span class="icon">🚨</span> 미납 회원</div>
+        <div id="unpaidList"></div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <div class="card-title"><span class="icon">📅</span> 다음 모임</div>
+        <div id="nextEventDash"></div>
+      </div>
+      <div class="card" style="margin-top:20px">
+        <div class="card-title"><span class="icon">📢</span> 최근 공지</div>
+        <div id="recentNotice"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== MEMBERS ============================== -->
+<div class="page" id="page-members">
+  <div class="card">
+    <div class="flex justify-between items-center" style="margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+      <div class="card-title" style="margin-bottom:0"><span class="icon">👥</span> 회원 명단 & 회비 납부 현황</div>
+      <button class="btn btn-primary admin-only hidden" onclick="openAddMemberModal()">+ 회원 추가</button>
+    </div>
+    <div class="member-controls">
+      <input class="search-input" placeholder="🔍 이름 검색..." oninput="filterMembers(this.value)" />
+      <select class="form-input" style="width:auto;min-width:110px" onchange="filterByStatus(this.value)">
+        <option value="">전체</option>
+        <option value="paid">완납</option>
+        <option value="partial">부분납</option>
+        <option value="unpaid">미납</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="member-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>이름</th>
+            <th>연락처</th>
+            <th>납부 현황</th>
+            <th>납부 개월</th>
+            <th>미납액</th>
+            <th class="admin-only hidden">관리</th>
+          </tr>
+        </thead>
+        <tbody id="memberTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== FINANCE ============================== -->
+<div class="page" id="page-finance">
+
+  <!-- 잔액 카드 -->
+  <div class="balance-display" id="balanceDisplay"></div>
+
+  <!-- 관리자 버튼 -->
+  <div class="flex gap-8" style="margin-bottom:20px;flex-wrap:wrap">
+    <button class="btn btn-gold admin-only hidden" onclick="openLedgerModal('income')">+ 입금 추가</button>
+    <button class="btn btn-danger admin-only hidden" onclick="openLedgerModal('expense')">- 지출 추가</button>
+  </div>
+
+  <!-- 지출 내역 (모든 회원이 볼 수 있도록 강조) -->
+  <div class="card" style="border-left:5px solid var(--red)">
+    <div class="card-title"><span class="icon">💸</span> 지출 내역 <span style="font-size:12px;color:var(--sub);font-weight:400;margin-left:4px">모임비 사용 내역</span></div>
+    <div id="expenseList"></div>
+  </div>
+
+  <!-- 전체 입출금 내역 -->
+  <div class="card">
+    <div class="card-title"><span class="icon">📒</span> 전체 입출금 내역</div>
+    <!-- 필터 탭 -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      <button class="ledger-filter-btn active" onclick="setLedgerFilter('all',this)">전체</button>
+      <button class="ledger-filter-btn" onclick="setLedgerFilter('income',this)">입금만</button>
+      <button class="ledger-filter-btn" onclick="setLedgerFilter('expense',this)">지출만</button>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="ledger-table">
+        <thead>
+          <tr>
+            <th>날짜</th>
+            <th>내용</th>
+            <th>구분</th>
+            <th style="text-align:right">금액</th>
+            <th style="text-align:right">잔액</th>
+            <th class="admin-only hidden">삭제</th>
+          </tr>
+        </thead>
+        <tbody id="ledgerBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== GALLERY ============================== -->
+<div class="page" id="page-gallery">
+  <div class="card">
+    <div class="card-title"><span class="icon">📸</span> 추억 사진</div>
+    <label for="photoInput" class="photo-upload-area" style="cursor:pointer;display:block;text-align:center;">
+      <div style="font-size:40px">🖼️</div>
+      <p>탭하거나 사진을 선택하여 업로드하세요</p>
+      <p style="font-size:12px;margin-top:4px;color:#aaa">누구나 사진을 올릴 수 있어요!</p>
+    </label>
+    <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="uploadPhotos(this)">
+    <div id="photoGrid" class="photo-grid"></div>
+  </div>
+</div>
+
+<!-- ============================== RULES ============================== -->
+<div class="page" id="page-rules">
+  <div class="card">
+    <div class="card-title"><span class="icon">📋</span> 281기 동기 모임 회칙 <span style="font-size:12px;color:var(--sub);margin-left:8px;font-weight:400">(수정 회칙 기준)</span></div>
+
+    <div class="rules-section">
+      <h3>📅 모임</h3>
+      <ul class="rules-list">
+        <li>연 2회 정기모임 (상황에 따라 1회 또는 3회 가능)</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>💰 회비</h3>
+      <ul class="rules-list">
+        <li>월 20,000원</li>
+        <li>3개월 이상 미납 시 경조사비 지급 없이 상계</li>
+        <li>총무는 12개월 중 3개월 회비 면제</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>🆕 신규회원</h3>
+      <ul class="rules-list">
+        <li>1년 12개월분 (24만원) 완납 조건</li>
+        <li>기존 회원 찬반 투표로 가입 결정</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>🎉 경조사 범위</h3>
+      <ul class="rules-list">
+        <li>결혼 — 20만원</li>
+        <li>부의 — 20만원 (부모님까지 해당)</li>
+        <li>돌 — 10만원 (쌍둥이는 각각 지급)</li>
+      </ul>
+    </div>
+
+    <div class="rules-section">
+      <h3>🚪 탈퇴</h3>
+      <ul class="rules-list">
+        <li>회비 반환 없이 탈퇴</li>
+        <li>양심상 잔여 납부 가능</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== NOTICES ============================== -->
+<div class="page" id="page-notices">
+  <div class="flex justify-between items-center" style="margin-bottom:16px;">
+    <div></div>
+    <button class="btn btn-primary admin-only hidden" onclick="openNoticeModal()">+ 공지 작성</button>
+  </div>
+  <div id="noticeList"></div>
+</div>
+
+<!-- ============================== EVENTS ============================== -->
+<div class="page" id="page-events">
+  <div class="flex justify-between items-center" style="margin-bottom:16px;">
+    <div></div>
+    <button class="btn btn-primary admin-only hidden" onclick="openEventModal()">+ 일정 추가</button>
+  </div>
+  <div id="eventList"></div>
+</div>
+
+<!-- ============================== GUESTBOOK ============================== -->
+<div class="page" id="page-guestbook">
+  <div class="card">
+    <div class="card-title"><span class="icon">💬</span> 방명록</div>
+    <div class="guestbook-form">
+      <input class="guestbook-input" id="gbName" placeholder="이름" style="margin-bottom:10px">
+      <textarea class="guestbook-input" id="gbMessage" placeholder="메시지를 남겨주세요..." rows="3"></textarea>
+      <div style="text-align:right">
+        <button class="btn btn-primary" onclick="addGuestbook()">남기기</button>
+      </div>
+    </div>
+    <div id="guestbookList"></div>
+  </div>
+</div>
+
+<!-- ============================== MODALS ============================== -->
+
+<!-- Admin Login -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal">
+    <h3>🔐 관리자 로그인</h3>
+    <div class="form-group">
+      <label class="form-label">비밀번호</label>
+      <input class="form-input" type="password" id="adminPwInput" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')checkAdmin()">
+    </div>
+    <div id="adminPwError" style="color:var(--red);font-size:13px;display:none">비밀번호가 틀렸습니다.</div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('adminModal')">취소</button>
+      <button class="btn btn-primary" onclick="checkAdmin()">로그인</button>
+    </div>
+    <div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--border)">
+      <p style="font-size:12px;color:var(--sub);margin-bottom:8px">비밀번호 변경 (관리자만)</p>
+      <div style="display:flex;gap:8px">
+        <input class="form-input" type="password" id="newPwInput" placeholder="새 비밀번호" style="flex:1">
+        <button class="btn btn-outline btn-sm" onclick="changePassword()">변경</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Member -->
+<div class="modal-overlay" id="addMemberModal">
+  <div class="modal">
+    <h3>👤 회원 추가</h3>
+    <div class="form-group">
+      <label class="form-label">이름 *</label>
+      <input class="form-input" id="m_name" placeholder="홍길동">
+    </div>
+    <div class="form-group">
+      <label class="form-label">연락처</label>
+      <input class="form-input" id="m_phone" placeholder="010-0000-0000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">가입 연도·월 (납부 시작)</label>
+      <input class="form-input" type="month" id="m_start">
+    </div>
+    <div class="form-group">
+      <label class="form-label">비고 (총무 등)</label>
+      <input class="form-input" id="m_note" placeholder="예: 총무">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('addMemberModal')">취소</button>
+      <button class="btn btn-primary" onclick="saveMember()">추가</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pay Month Modal -->
+<div class="modal-overlay" id="payModal">
+  <div class="modal">
+    <h3 id="payModalTitle">회비 납부 관리</h3>
+    <p style="font-size:13px;color:var(--sub);margin-bottom:16px">월을 클릭하여 납부/미납 토글</p>
+    <div id="payMonthGrid" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('payModal')">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ledger Modal -->
+<div class="modal-overlay" id="ledgerModal">
+  <div class="modal">
+    <h3 id="ledgerModalTitle">입출금 추가</h3>
+    <div class="form-group">
+      <label class="form-label">날짜 *</label>
+      <input class="form-input" type="date" id="l_date">
+    </div>
+    <div class="form-group">
+      <label class="form-label">내용 *</label>
+      <input class="form-input" id="l_desc" placeholder="예: 최민준 회비 6월">
+    </div>
+    <div class="form-group">
+      <label class="form-label">금액 (원) *</label>
+      <input class="form-input" type="number" id="l_amount" placeholder="20000">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('ledgerModal')">취소</button>
+      <button class="btn btn-primary" onclick="saveLedger()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notice Modal -->
+<div class="modal-overlay" id="noticeModal">
+  <div class="modal">
+    <h3>📢 공지 작성</h3>
+    <div class="form-group">
+      <label class="form-label">제목 *</label>
+      <input class="form-input" id="n_title" placeholder="공지 제목">
+    </div>
+    <div class="form-group">
+      <label class="form-label">내용 *</label>
+      <textarea class="form-input" id="n_body" rows="5" placeholder="공지 내용을 입력하세요"></textarea>
+    </div>
+    <div class="form-group">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+        <input type="checkbox" id="n_pin"> <span class="form-label" style="margin-bottom:0">📌 상단 고정</span>
+      </label>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('noticeModal')">취소</button>
+      <button class="btn btn-primary" onclick="saveNotice()">작성</button>
+    </div>
+  </div>
+</div>
+
+<!-- Event Modal -->
+<div class="modal-overlay" id="eventModal">
+  <div class="modal">
+    <h3>📅 일정 추가</h3>
+    <div class="form-group">
+      <label class="form-label">제목 *</label>
+      <input class="form-input" id="ev_title" placeholder="예: 2025년 상반기 정기모임">
+    </div>
+    <div class="form-group">
+      <label class="form-label">날짜 *</label>
+      <input class="form-input" type="date" id="ev_date">
+    </div>
+    <div class="form-group">
+      <label class="form-label">장소</label>
+      <input class="form-input" id="ev_place" placeholder="예: 서울 강남구 OO식당">
+    </div>
+    <div class="form-group">
+      <label class="form-label">상세 내용</label>
+      <textarea class="form-input" id="ev_desc" rows="3" placeholder="추가 정보..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('eventModal')">취소</button>
+      <button class="btn btn-primary" onclick="saveEvent()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Photo Caption Modal -->
+<div class="modal-overlay" id="captionModal">
+  <div class="modal">
+    <h3>📸 사진 업로드</h3>
+    <img id="captionPreview" style="width:100%;border-radius:10px;margin-bottom:16px;max-height:200px;object-fit:cover">
+    <div class="form-group">
+      <label class="form-label">이름 (올리는 사람)</label>
+      <input class="form-input" id="cap_name" placeholder="홍길동">
+    </div>
+    <div class="form-group">
+      <label class="form-label">설명</label>
+      <input class="form-input" id="cap_desc" placeholder="예: 2024년 정기모임">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="cancelPhotoUpload()">취소</button>
+      <button class="btn btn-primary" onclick="confirmPhotoUpload()">올리기</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">✕</span>
+  <img id="lightboxImg" src="">
+</div>
+
+<script>
+// ============================================================
+// STATE & STORAGE
+// ============================================================
+const ADMIN_PW_KEY = 'pw281';
+const DATA_KEY = 'data281';
+
+function loadData() {
+  const raw = localStorage.getItem(DATA_KEY);
+  if (raw) {
+    const parsed = JSON.parse(raw);
+    // 회원/장부 데이터가 비어있으면 기본 데이터로 초기화
+    const def = getDefaultData();
+    if (!parsed.members || parsed.members.length === 0) parsed.members = def.members;
+    if (!parsed.ledger || parsed.ledger.length === 0) parsed.ledger = def.ledger;
+    localStorage.setItem(DATA_KEY, JSON.stringify(parsed));
+    return parsed;
+  }
+  return getDefaultData();
+}
+
+function saveData() {
+  localStorage.setItem(DATA_KEY, JSON.stringify(db));
+}
+
+function getDefaultData() {
+  return {
+    members: [{"name":"강두호","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"전은경","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"김주호","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"이수현","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"김재일","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"김종완","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"조예슬","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"최종민","phone":"","note":"총무","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,"exempt","exempt","exempt",true,true,true,true,true,true,"exempt","exempt","exempt",true,true,true],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"허기행","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false,false,false,false,false,false,false,false,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"이상엽","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"진용식","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,false],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"박성현","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"createdAt":"2022-01-01T00:00:00.000Z"},{"name":"엄준섭","phone":"","note":"","startMonth":"2022-01","payments":[true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"createdAt":"2022-01-01T00:00:00.000Z"}],
+    ledger: [{"date":"2025-03-04","desc":"281기 회비 인수","amount":5587652,"type":"income","createdAt":"2025-03-04T00:00:00.000Z"},{"date":"2025-03-04","desc":"최종민 회비 입금(24.4 - 25.3)","amount":240000,"type":"income","createdAt":"2025-03-04T00:00:00.000Z"},{"date":"2025-03-04","desc":"박성현 회비 입금(25.3.)","amount":20000,"type":"income","createdAt":"2025-03-04T00:00:00.000Z"},{"date":"2025-03-04","desc":"진용식 회비 입금(25.3.)","amount":20000,"type":"income","createdAt":"2025-03-04T00:00:00.000Z"},{"date":"2025-03-04","desc":"엄준섭 회비 입금(10개월치)","amount":200000,"type":"income","createdAt":"2025-03-04T00:00:00.000Z"},{"date":"2025-03-05","desc":"강두호 회비 입금(9개월치)","amount":180000,"type":"income","createdAt":"2025-03-05T00:00:00.000Z"},{"date":"2025-03-20","desc":"김재일 회비 입금(3월분)","amount":20000,"type":"income","createdAt":"2025-03-20T00:00:00.000Z"},{"date":"2025-03-20","desc":"허기행 회비 입금(18개월분)","amount":360000,"type":"income","createdAt":"2025-03-20T00:00:00.000Z"},{"date":"2025-04-01","desc":"입출금통장 이자","amount":376,"type":"income","createdAt":"2025-04-01T00:00:00.000Z"},{"date":"2025-04-01","desc":"엄준섭 회비 입금(4월분)","amount":20000,"type":"income","createdAt":"2025-04-01T00:00:00.000Z"},{"date":"2025-04-01","desc":"박성현 회비 입금(4월분)","amount":20000,"type":"income","createdAt":"2025-04-01T00:00:00.000Z"},{"date":"2025-04-20","desc":"진용식 회비 입금(4월분)","amount":20000,"type":"income","createdAt":"2025-04-20T00:00:00.000Z"},{"date":"2025-04-21","desc":"김재일 회비 입금(4월분)","amount":20000,"type":"income","createdAt":"2025-04-21T00:00:00.000Z"},{"date":"2025-04-21","desc":"전은경,김주호 회비 입금(4월분)","amount":40000,"type":"income","createdAt":"2025-04-21T00:00:00.000Z"},{"date":"2025-04-26","desc":"입출금통장 이자","amount":443,"type":"income","createdAt":"2025-04-26T00:00:00.000Z"},{"date":"2025-05-01","desc":"박성현 회비 입금(5월분)","amount":20000,"type":"income","createdAt":"2025-05-01T00:00:00.000Z"},{"date":"2025-05-01","desc":"강두호 회비 입금(5월분)","amount":20000,"type":"income","createdAt":"2025-05-01T00:00:00.000Z"},{"date":"2025-05-02","desc":"엄준섭 회비 입금(5월분)","amount":20000,"type":"income","createdAt":"2025-05-02T00:00:00.000Z"},{"date":"2025-05-20","desc":"김재일 회비 입금(5월분)","amount":20000,"type":"income","createdAt":"2025-05-20T00:00:00.000Z"},{"date":"2025-05-20","desc":"전은경,김주호 회비 입금(5월분)","amount":40000,"type":"income","createdAt":"2025-05-20T00:00:00.000Z"},{"date":"2025-05-20","desc":"진용식 회비 입금(5월분)","amount":20000,"type":"income","createdAt":"2025-05-20T00:00:00.000Z"},{"date":"2025-05-24","desc":"입출금통장 이자","amount":453,"type":"income","createdAt":"2025-05-24T00:00:00.000Z"},{"date":"2025-06-01","desc":"박성현 회비 입금(6월분)","amount":20000,"type":"income","createdAt":"2025-06-01T00:00:00.000Z"},{"date":"2025-06-01","desc":"강두호 회비 입금(6월분)","amount":20000,"type":"income","createdAt":"2025-06-01T00:00:00.000Z"},{"date":"2025-06-02","desc":"엄준섭 회비 입금(6월분)","amount":20000,"type":"income","createdAt":"2025-06-02T00:00:00.000Z"},{"date":"2025-06-20","desc":"김재일 회비 입금(6월분)","amount":20000,"type":"income","createdAt":"2025-06-20T00:00:00.000Z"},{"date":"2025-06-20","desc":"진용식 회비 입금(6월분)","amount":20000,"type":"income","createdAt":"2025-06-20T00:00:00.000Z"},{"date":"2025-06-20","desc":"전은경,김주호 회비입금(6월분)","amount":40000,"type":"income","createdAt":"2025-06-20T00:00:00.000Z"},{"date":"2025-06-28","desc":"입출금통장 이자","amount":578,"type":"income","createdAt":"2025-06-28T00:00:00.000Z"},{"date":"2025-07-01","desc":"엄준섭 회비 입금(7월분)","amount":20000,"type":"income","createdAt":"2025-07-01T00:00:00.000Z"},{"date":"2025-07-01","desc":"박성현 회비 입금(7월분)","amount":20000,"type":"income","createdAt":"2025-07-01T00:00:00.000Z"},{"date":"2025-07-01","desc":"강두호 회비 입금(7월분)","amount":20000,"type":"income","createdAt":"2025-07-01T00:00:00.000Z"},{"date":"2025-07-18","desc":"진용식 회비 입금(7월분)","amount":20000,"type":"income","createdAt":"2025-07-18T00:00:00.000Z"},{"date":"2025-07-21","desc":"김재일 회비 입금(7월분)","amount":20000,"type":"income","createdAt":"2025-07-21T00:00:00.000Z"},{"date":"2025-07-21","desc":"전은경,김주호 회비 입금(7월분)","amount":40000,"type":"income","createdAt":"2025-07-21T00:00:00.000Z"},{"date":"2025-07-26","desc":"입출금통장 이자","amount":476,"type":"income","createdAt":"2025-07-26T00:00:00.000Z"},{"date":"2025-08-01","desc":"엄준섭 회비 입금(8월분)","amount":20000,"type":"income","createdAt":"2025-08-01T00:00:00.000Z"},{"date":"2025-08-01","desc":"박성현 회비 입금(8월분)","amount":20000,"type":"income","createdAt":"2025-08-01T00:00:00.000Z"},{"date":"2025-08-01","desc":"강두호 회비 입금(8월분)","amount":20000,"type":"income","createdAt":"2025-08-01T00:00:00.000Z"},{"date":"2025-08-20","desc":"김재일 회비 입금(8월분)","amount":20000,"type":"income","createdAt":"2025-08-20T00:00:00.000Z"},{"date":"2025-08-20","desc":"전은경,김주호 회비 입금(8월분)","amount":40000,"type":"income","createdAt":"2025-08-20T00:00:00.000Z"},{"date":"2025-08-20","desc":"진용식 회비 입금(8월분)","amount":20000,"type":"income","createdAt":"2025-08-20T00:00:00.000Z"},{"date":"2025-08-23","desc":"입출금통장 이자","amount":485,"type":"income","createdAt":"2025-08-23T00:00:00.000Z"},{"date":"2025-09-01","desc":"엄준섭 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-01T00:00:00.000Z"},{"date":"2025-09-01","desc":"박성현 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-01T00:00:00.000Z"},{"date":"2025-09-02","desc":"강두호 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-02T00:00:00.000Z"},{"date":"2025-04-01","desc":"강두호 회비 입금(4월분)","amount":20000,"type":"income","createdAt":"2025-04-01T00:00:00.000Z"},{"date":"2025-09-02","desc":"엄준섭 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-02T00:00:00.000Z"},{"date":"2025-09-03","desc":"박성현 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-03T00:00:00.000Z"},{"date":"2025-09-03","desc":"최종민 회비 입금(25-7월~9월)","amount":60000,"type":"income","createdAt":"2025-09-03T00:00:00.000Z"},{"date":"2025-09-03","desc":"이수현 회비 입금(25-4월~9월)","amount":120000,"type":"income","createdAt":"2025-09-03T00:00:00.000Z"},{"date":"2025-09-03","desc":"조예슬 회비 입금(25-4월~9월)","amount":120000,"type":"income","createdAt":"2025-09-03T00:00:00.000Z"},{"date":"2025-09-03","desc":"김종완 회비 입금(25-4월~9월)","amount":120000,"type":"income","createdAt":"2025-09-03T00:00:00.000Z"},{"date":"2025-09-07","desc":"허기행 회비 입금(25-1월~9월)","amount":180000,"type":"income","createdAt":"2025-09-07T00:00:00.000Z"},{"date":"2025-09-08","desc":"이상엽 회비 입금(23년7월~25년8월)","amount":520000,"type":"income","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"진용식 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"전은경,김주호 회비 입금(8월분)","amount":40000,"type":"income","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"전은경,김주호 회비 입금(9월분)","amount":40000,"type":"income","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"김재일 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"이상엽 회비 입금(9월분)","amount":20000,"type":"income","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"입출금통장 이자","amount":663,"type":"income","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"모나밸리 식사","amount":1866000,"type":"expense","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-08","desc":"모나밸리 카페","amount":141300,"type":"expense","createdAt":"2025-09-08T00:00:00.000Z"},{"date":"2025-09-30","desc":"강두호 회비 입금(10월분)","amount":20000,"type":"income","createdAt":"2025-09-30T00:00:00.000Z"},{"date":"2025-09-30","desc":"박성현 회비 입금(10월분)","amount":20000,"type":"income","createdAt":"2025-09-30T00:00:00.000Z"},{"date":"2025-09-30","desc":"엄준섭 회비 입금(10월분)","amount":20000,"type":"income","createdAt":"2025-09-30T00:00:00.000Z"},{"date":"2025-09-30","desc":"이수현 회비 입금(10월분)","amount":20000,"type":"income","createdAt":"2025-09-30T00:00:00.000Z"},{"date":"2025-10-19","desc":"진용식 회비 입금(10월분)","amount":20000,"type":"income","createdAt":"2025-10-19T00:00:00.000Z"},{"date":"2025-10-19","desc":"김재일 회비 입금(10월분)","amount":20000,"type":"income","createdAt":"2025-10-19T00:00:00.000Z"},{"date":"2025-10-20","desc":"이상엽 회비 입금(10월분)","amount":20000,"type":"income","createdAt":"2025-10-20T00:00:00.000Z"},{"date":"2025-10-24","desc":"입출금통장 이자","amount":445,"type":"income","createdAt":"2025-10-24T00:00:00.000Z"},{"date":"2025-10-31","desc":"강두호 회비 입금(11월분)","amount":20000,"type":"income","createdAt":"2025-10-31T00:00:00.000Z"},{"date":"2025-10-31","desc":"박성현 회비 입금(11월분)","amount":20000,"type":"income","createdAt":"2025-10-31T00:00:00.000Z"},{"date":"2025-11-02","desc":"엄준섭 회비 입금(11월분)","amount":20000,"type":"income","createdAt":"2025-11-02T00:00:00.000Z"},{"date":"2025-11-02","desc":"이수현 회비 입금(11월분)","amount":20000,"type":"income","createdAt":"2025-11-02T00:00:00.000Z"},{"date":"2025-11-19","desc":"진용식 회비 입금(11월분)","amount":20000,"type":"income","createdAt":"2025-11-19T00:00:00.000Z"},{"date":"2025-11-19","desc":"김재일 회비 입금(11월분)","amount":20000,"type":"income","createdAt":"2025-11-19T00:00:00.000Z"},{"date":"2025-11-23","desc":"전은경,김주호 회비 입금(11월분)","amount":40000,"type":"income","createdAt":"2025-11-23T00:00:00.000Z"},{"date":"2025-11-20","desc":"이상엽 회비 입금(11월분)","amount":20000,"type":"income","createdAt":"2025-11-20T00:00:00.000Z"},{"date":"2025-11-28","desc":"입출금통장 이자","amount":568,"type":"income","createdAt":"2025-11-28T00:00:00.000Z"},{"date":"2025-11-30","desc":"박성현 회비 입금(12월분)","amount":20000,"type":"income","createdAt":"2025-11-30T00:00:00.000Z"},{"date":"2025-11-30","desc":"엄준섭 회비 입금(12월분)","amount":20000,"type":"income","createdAt":"2025-11-30T00:00:00.000Z"},{"date":"2025-11-30","desc":"강두호 회비 입금(12월분)","amount":20000,"type":"income","createdAt":"2025-11-30T00:00:00.000Z"},{"date":"2025-11-30","desc":"이수현 회비 입금(12월분)","amount":20000,"type":"income","createdAt":"2025-11-30T00:00:00.000Z"},{"date":"2025-12-19","desc":"진용식 회비 입금(12월분)","amount":20000,"type":"income","createdAt":"2025-12-19T00:00:00.000Z"},{"date":"2025-12-21","desc":"전은경,김주호 회비 입금(12월분)","amount":40000,"type":"income","createdAt":"2025-12-21T00:00:00.000Z"},{"date":"2025-12-21","desc":"김재일 회비 입금(12월분)","amount":20000,"type":"income","createdAt":"2025-12-21T00:00:00.000Z"},{"date":"2025-12-21","desc":"이상엽 회비 입금(12월분)","amount":20000,"type":"income","createdAt":"2025-12-21T00:00:00.000Z"},{"date":"2025-12-26","desc":"입출금통장 이자","amount":471,"type":"income","createdAt":"2025-12-26T00:00:00.000Z"},{"date":"2026-01-01","desc":"강두호 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-01-01T00:00:00.000Z"},{"date":"2026-01-01","desc":"박성현 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-01-01T00:00:00.000Z"},{"date":"2026-01-02","desc":"엄준섭 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-01-02T00:00:00.000Z"},{"date":"2026-01-02","desc":"이수현 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-01-02T00:00:00.000Z"},{"date":"2026-01-20","desc":"김재일 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-01-20T00:00:00.000Z"},{"date":"2026-01-21","desc":"진용식 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-01-21T00:00:00.000Z"},{"date":"2026-01-21","desc":"이상엽 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-01-21T00:00:00.000Z"},{"date":"2026-01-22","desc":"전은경,김주호 회비 입금(26년1월분)","amount":40000,"type":"income","createdAt":"2026-01-22T00:00:00.000Z"},{"date":"2026-01-24","desc":"입출금통장 이자","amount":483,"type":"income","createdAt":"2026-01-24T00:00:00.000Z"},{"date":"2026-02-01","desc":"김종완 회비 입금(25년10월~26년2월)","amount":100000,"type":"income","createdAt":"2026-02-01T00:00:00.000Z"},{"date":"2026-02-01","desc":"조예슬 회비 입금(25년10월~26년2월)","amount":100000,"type":"income","createdAt":"2026-02-01T00:00:00.000Z"},{"date":"2026-02-02","desc":"엄준섭 회비 입금(26년2월분)","amount":20000,"type":"income","createdAt":"2026-02-02T00:00:00.000Z"},{"date":"2026-02-02","desc":"이수현 회비 입금(26년2월분)","amount":20000,"type":"income","createdAt":"2026-02-02T00:00:00.000Z"},{"date":"2026-02-20","desc":"진용식 회비 입금(26년2월분)","amount":20000,"type":"income","createdAt":"2026-02-20T00:00:00.000Z"},{"date":"2026-02-20","desc":"김재일 회비 입금(26년2월분)","amount":20000,"type":"income","createdAt":"2026-02-20T00:00:00.000Z"},{"date":"2026-02-23","desc":"전은경,김주호 회비 입금(26년2월분)","amount":40000,"type":"income","createdAt":"2026-02-23T00:00:00.000Z"},{"date":"2026-02-23","desc":"이상엽 회비 입금(26년2월분)","amount":20000,"type":"income","createdAt":"2026-02-23T00:00:00.000Z"},{"date":"2026-02-28","desc":"입출금통장 이자","amount":614,"type":"income","createdAt":"2026-02-28T00:00:00.000Z"},{"date":"2026-03-01","desc":"박성현 회비 입금(26년3월분)","amount":20000,"type":"income","createdAt":"2026-03-01T00:00:00.000Z"},{"date":"2026-03-03","desc":"엄준섭 회비 입금(26년3월분)","amount":20000,"type":"income","createdAt":"2026-03-03T00:00:00.000Z"},{"date":"2026-03-03","desc":"이수현 회비 입금(26년3월분)","amount":20000,"type":"income","createdAt":"2026-03-03T00:00:00.000Z"},{"date":"2026-03-04","desc":"강두호 회비 입금(26년3월분)","amount":20000,"type":"income","createdAt":"2026-03-04T00:00:00.000Z"},{"date":"2026-03-20","desc":"진용식 회비 입금(26년3월분)","amount":20000,"type":"income","createdAt":"2026-03-20T00:00:00.000Z"},{"date":"2026-03-20","desc":"김재일 회비 입금(26년3월분)","amount":20000,"type":"income","createdAt":"2026-03-20T00:00:00.000Z"},{"date":"2026-03-23","desc":"전은경,김주호 회비 입금(26년3월분)","amount":40000,"type":"income","createdAt":"2026-03-23T00:00:00.000Z"},{"date":"2026-03-23","desc":"이상엽 회비 입금(26년3월분)","amount":20000,"type":"income","createdAt":"2026-03-23T00:00:00.000Z"},{"date":"2026-03-28","desc":"입출금통장 이자","amount":518,"type":"income","createdAt":"2026-03-28T00:00:00.000Z"},{"date":"2026-04-01","desc":"박성현 회비 입금(26년4월분)","amount":20000,"type":"income","createdAt":"2026-04-01T00:00:00.000Z"},{"date":"2026-04-01","desc":"엄준섭 회비 입금(26년4월분)","amount":20000,"type":"income","createdAt":"2026-04-01T00:00:00.000Z"},{"date":"2026-04-01","desc":"강두호 회비 입금(26년4월분)","amount":20000,"type":"income","createdAt":"2026-04-01T00:00:00.000Z"},{"date":"2026-04-01","desc":"이수현 회비 입금(26년4월분)","amount":20000,"type":"income","createdAt":"2026-04-01T00:00:00.000Z"},{"date":"2026-04-01","desc":"김종완 회비 입금(26년3~4월분)","amount":40000,"type":"income","createdAt":"2026-04-01T00:00:00.000Z"},{"date":"2026-04-01","desc":"조예슬 회비 입금(26년3~4월분)","amount":40000,"type":"income","createdAt":"2026-04-01T00:00:00.000Z"},{"date":"2026-04-20","desc":"진용식 회비 입금(26년4월분)","amount":20000,"type":"income","createdAt":"2026-04-20T00:00:00.000Z"},{"date":"2026-04-20","desc":"김재일 회비 입금(26년4월분)","amount":20000,"type":"income","createdAt":"2026-04-20T00:00:00.000Z"},{"date":"2026-04-21","desc":"이상엽 회비 입금(26년4월분)","amount":20000,"type":"income","createdAt":"2026-04-21T00:00:00.000Z"},{"date":"2026-04-22","desc":"전은경,김주호 회비 입금(26년4월분)","amount":40000,"type":"income","createdAt":"2026-04-22T00:00:00.000Z"},{"date":"2026-04-25","desc":"입출금통장 이자","amount":536,"type":"income","createdAt":"2026-04-25T00:00:00.000Z"},{"date":"2026-05-02","desc":"강두호 회비 입금(26년5월분)","amount":20000,"type":"income","createdAt":"2026-05-02T00:00:00.000Z"},{"date":"2026-05-04","desc":"엄준섭 회비 입금(26년5월분)","amount":20000,"type":"income","createdAt":"2026-05-04T00:00:00.000Z"},{"date":"2026-05-04","desc":"이수현 회비 입금(26년5월분)","amount":20000,"type":"income","createdAt":"2026-05-04T00:00:00.000Z"},{"date":"2026-05-20","desc":"김재일 회비 입금(26년5월분)","amount":20000,"type":"income","createdAt":"2026-05-20T00:00:00.000Z"},{"date":"2026-05-20","desc":"진용식 회비 입금(26년5월분)","amount":20000,"type":"income","createdAt":"2026-05-20T00:00:00.000Z"},{"date":"2026-05-21","desc":"이상엽 회비 입금(26년5월분)","amount":20000,"type":"income","createdAt":"2026-05-21T00:00:00.000Z"},{"date":"2026-05-22","desc":"전은경,김주호 회비 입금(26년5월분)","amount":40000,"type":"income","createdAt":"2026-05-22T00:00:00.000Z"},{"date":"2026-05-23","desc":"입출금통장 이자","amount":548,"type":"income","createdAt":"2026-05-23T00:00:00.000Z"},{"date":"2026-06-01","desc":"이수현 회비 입금(26년6월분)","amount":20000,"type":"income","createdAt":"2026-06-01T00:00:00.000Z"},{"date":"2026-06-01","desc":"최종민 회비 입금(25년10~12월)","amount":60000,"type":"income","createdAt":"2026-06-01T00:00:00.000Z"},{"date":"2026-06-01","desc":"박성현 회비 입금(26년1월분)","amount":20000,"type":"income","createdAt":"2026-06-01T00:00:00.000Z"},{"date":"2026-06-01","desc":"엄준섭 회비 입금(26년6월분)","amount":20000,"type":"income","createdAt":"2026-06-01T00:00:00.000Z"},{"date":"2026-06-01","desc":"최종민 회비 입금(26년4~6월)","amount":60000,"type":"income","createdAt":"2026-06-01T00:00:00.000Z"}],
+    notices: [],
+    events: [],
+    guestbook: [],
+    photos: [],
+    monthlyFee: 20000
+  };
+}
+
+let db = loadData();
+let isAdmin = false;
+let currentLedgerType = 'income';
+let pendingPhotos = [];
+let pendingPhotoIndex = 0;
+
+function getAdminPw() {
+  return localStorage.getItem(ADMIN_PW_KEY) || '0214';
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const tabMap = {dashboard:0, members:1, finance:2, gallery:3, rules:4, notices:5, events:6, guestbook:7};
+  if (tabMap[name] !== undefined) tabs[tabMap[name]].classList.add('active');
+  renderPage(name);
+}
+
+function renderPage(name) {
+  if (name === 'dashboard') renderDashboard();
+  else if (name === 'members') renderMembers();
+  else if (name === 'finance') renderFinance();
+  else if (name === 'gallery') renderGallery();
+  else if (name === 'notices') renderNotices();
+  else if (name === 'events') renderEvents();
+  else if (name === 'guestbook') renderGuestbook();
+}
+
+// ============================================================
+// ADMIN
+// ============================================================
+function toggleAdmin() {
+  if (isAdmin) {
+    isAdmin = false;
+    updateAdminUI();
+  } else {
+    document.getElementById('adminPwInput').value = '';
+    document.getElementById('adminPwError').style.display = 'none';
+    openModal('adminModal');
+    setTimeout(() => document.getElementById('adminPwInput').focus(), 100);
+  }
+}
+
+function checkAdmin() {
+  const pw = document.getElementById('adminPwInput').value;
+  if (pw === getAdminPw()) {
+    isAdmin = true;
+    closeModal('adminModal');
+    updateAdminUI();
+  } else {
+    document.getElementById('adminPwError').style.display = 'block';
+  }
+}
+
+function changePassword() {
+  const np = document.getElementById('newPwInput').value.trim();
+  if (!np) return alert('새 비밀번호를 입력하세요.');
+  localStorage.setItem(ADMIN_PW_KEY, np);
+  alert('비밀번호가 변경되었습니다.');
+  document.getElementById('newPwInput').value = '';
+}
+
+function updateAdminUI() {
+  const btn = document.getElementById('adminBtn');
+  btn.textContent = isAdmin ? '🔓 관리자 모드' : '🔐 관리자';
+  btn.className = isAdmin ? 'admin-btn active' : 'admin-btn';
+  document.querySelectorAll('.admin-only').forEach(el => {
+    if (isAdmin) el.classList.remove('hidden');
+    else el.classList.add('hidden');
+  });
+  renderPage(getCurrentPage());
+}
+
+function getCurrentPage() {
+  const active = document.querySelector('.page.active');
+  return active ? active.id.replace('page-', '') : 'dashboard';
+}
+
+// ============================================================
+// MODAL HELPERS
+// ============================================================
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// Close on overlay click
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+// ============================================================
+// MEMBERS
+// ============================================================
+let memberFilter = '';
+let statusFilter = '';
+
+function filterMembers(val) { memberFilter = val; renderMembers(); }
+function filterByStatus(val) { statusFilter = val; renderMembers(); }
+
+function getMemberStatus(m) {
+  const paidCount = m.payments ? m.payments.filter(Boolean).length : 0;
+  const total = m.payments ? m.payments.length : 0;
+  if (total === 0) return 'unpaid';
+  if (paidCount === total) return 'paid';
+  if (paidCount === 0) return 'unpaid';
+  return 'partial';
+}
+
+function getMemberUnpaid(m) {
+  if (!m.payments) return 0;
+  const unpaidMonths = m.payments.filter(p => p === false).length;
+  return unpaidMonths * db.monthlyFee;
+}
+
+function renderMembers() {
+  const tbody = document.getElementById('memberTableBody');
+  let members = [...db.members];
+
+  if (memberFilter) members = members.filter(m => m.name.includes(memberFilter));
+  if (statusFilter) members = members.filter(m => getMemberStatus(m) === statusFilter);
+
+  if (members.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="padding:30px;color:var(--sub)">
+      ${db.members.length === 0 ? '회원을 추가해 주세요.' : '검색 결과가 없습니다.'}</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = members.map((m, i) => {
+    const status = getMemberStatus(m);
+    const unpaid = getMemberUnpaid(m);
+    const paidCount = m.payments ? m.payments.filter(Boolean).length : 0;
+    const total = m.payments ? m.payments.length : 0;
+
+    const statusBadge = {
+      paid: '<span class="badge badge-paid">완납</span>',
+      partial: '<span class="badge badge-partial">부분납</span>',
+      unpaid: '<span class="badge badge-unpaid">미납</span>'
+    }[status];
+
+    const pills = m.payments ? m.payments.map((p, idx) => {
+      const monthLabel = getMonthLabel(m.startMonth, idx);
+      const cls = isAdmin ? 'month-pill pill-clickable ' : 'month-pill ';
+      if (p === 'exempt') return `<div class="${cls}pill-exempt" title="${monthLabel} 면제" ${isAdmin ? `onclick="togglePay(${db.members.indexOf(m)},${idx})"` : ''}>${monthLabel.slice(-2)}</div>`;
+      return `<div class="${cls}${p ? 'pill-paid' : 'pill-unpaid'}" title="${monthLabel}" ${isAdmin ? `onclick="togglePay(${db.members.indexOf(m)},${idx})"` : ''}>${monthLabel.slice(-2)}</div>`;
+    }).join('') : '';
+
+    const realIdx = db.members.indexOf(m);
+    return `<tr>
+      <td>${i+1}</td>
+      <td><strong>${m.name}</strong>${m.note ? `<br><span style="font-size:11px;color:var(--sub)">${m.note}</span>` : ''}</td>
+      <td style="color:var(--sub)">${m.phone || '-'}</td>
+      <td>${statusBadge}</td>
+      <td>
+        <div class="month-pills">${pills}</div>
+        <div style="font-size:11px;color:var(--sub);margin-top:4px">${paidCount}/${total} 개월</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${total>0?paidCount/total*100:0}%"></div></div>
+      </td>
+      <td style="color:${unpaid>0?'var(--red)':'var(--green)'};font-weight:600">
+        ${unpaid > 0 ? '-' + unpaid.toLocaleString() + '원' : '✓'}
+      </td>
+      <td class="admin-only ${isAdmin ? '' : 'hidden'}">
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-success" onclick="openPayModal(${realIdx})">납부관리</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteMember(${realIdx})">삭제</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function getMonthLabel(startMonth, idx) {
+  if (!startMonth) return `${idx+1}월`;
+  const [y, m] = startMonth.split('-').map(Number);
+  const d = new Date(y, m - 1 + idx);
+  return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function openAddMemberModal() {
+  document.getElementById('m_name').value = '';
+  document.getElementById('m_phone').value = '';
+  document.getElementById('m_note').value = '';
+  const now = new Date();
+  document.getElementById('m_start').value = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  openModal('addMemberModal');
+}
+
+function saveMember() {
+  const name = document.getElementById('m_name').value.trim();
+  if (!name) return alert('이름을 입력하세요.');
+  const startMonth = document.getElementById('m_start').value;
+  const now = new Date();
+  let months = 12;
+  if (startMonth) {
+    const [sy, sm] = startMonth.split('-').map(Number);
+    months = Math.max(1, (now.getFullYear() - sy) * 12 + (now.getMonth() + 1 - sm) + 1);
+  }
+  const member = {
+    name,
+    phone: document.getElementById('m_phone').value.trim(),
+    note: document.getElementById('m_note').value.trim(),
+    startMonth,
+    payments: Array(months).fill(false),
+    createdAt: new Date().toISOString()
+  };
+  db.members.push(member);
+  saveData();
+  closeModal('addMemberModal');
+  renderMembers();
+  renderDashboard();
+}
+
+function deleteMember(idx) {
+  if (!confirm(`"${db.members[idx].name}" 회원을 삭제하시겠습니까?`)) return;
+  db.members.splice(idx, 1);
+  saveData();
+  renderMembers();
+  renderDashboard();
+}
+
+let currentPayMemberIdx = -1;
+
+function openPayModal(idx) {
+  currentPayMemberIdx = idx;
+  const m = db.members[idx];
+  document.getElementById('payModalTitle').textContent = `${m.name} - 회비 납부 관리`;
+  renderPayGrid();
+  openModal('payModal');
+}
+
+function renderPayGrid() {
+  const m = db.members[currentPayMemberIdx];
+  const grid = document.getElementById('payMonthGrid');
+  grid.innerHTML = m.payments.map((p, i) => {
+    const label = getMonthLabel(m.startMonth, i);
+    let cls = p === 'exempt' ? 'pill-exempt' : (p ? 'pill-paid' : 'pill-unpaid');
+    return `<div style="text-align:center;cursor:pointer" onclick="togglePay(${currentPayMemberIdx},${i},true)">
+      <div class="month-pill ${cls}" style="width:46px;height:46px;font-size:12px;border-radius:10px">${label}</div>
+      <div style="font-size:10px;color:var(--sub);margin-top:2px">${p==='exempt'?'면제':p?'납부':'미납'}</div>
+    </div>`;
+  }).join('');
+}
+
+function togglePay(memberIdx, payIdx, fromModal = false) {
+  if (!isAdmin) return;
+  const m = db.members[memberIdx];
+  const cur = m.payments[payIdx];
+  if (cur === false) m.payments[payIdx] = true;
+  else if (cur === true) m.payments[payIdx] = 'exempt';
+  else m.payments[payIdx] = false;
+  saveData();
+  if (fromModal) renderPayGrid();
+  renderMembers();
+  renderDashboard();
+}
+
+// ============================================================
+// FINANCE
+// ============================================================
+let ledgerFilter = 'all';
+function setLedgerFilter(f, btn) {
+  ledgerFilter = f;
+  document.querySelectorAll('.ledger-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderLedger();
+}
+
+function renderFinance() {
+  renderBalance();
+  renderExpenses();
+  renderLedger();
+}
+
+function renderExpenses() {
+  const expenses = db.ledger.filter(l => l.type === 'expense').sort((a,b) => b.date.localeCompare(a.date));
+  const div = document.getElementById('expenseList');
+  if (!div) return;
+  if (expenses.length === 0) {
+    div.innerHTML = `<div style="text-align:center;padding:20px;color:var(--sub);font-size:14px">지출 내역이 없습니다.</div>`;
+    return;
+  }
+  const total = expenses.reduce((s,e) => s + e.amount, 0);
+  div.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding:12px 16px;background:#fff0f0;border-radius:10px">
+      <span style="font-size:13px;color:var(--sub)">총 지출액</span>
+      <span style="font-size:20px;font-weight:800;color:var(--red)">-${total.toLocaleString()}원</span>
+    </div>
+    ${expenses.map((e, i) => {
+      const realIdx = db.ledger.indexOf(e);
+      const emoji = getExpenseEmoji(e.desc);
+      return `<div class="expense-item">
+        <span class="expense-icon">${emoji}</span>
+        <div class="expense-info">
+          <div class="title">${e.desc}</div>
+          <div class="date">${e.date.replaceAll('-','.')}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="expense-amount">-${e.amount.toLocaleString()}원</div>
+          ${isAdmin ? `<button class="btn btn-sm btn-danger" onclick="deleteLedger(${realIdx})">삭제</button>` : ''}
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function getExpenseEmoji(desc) {
+  if (desc.includes('식사') || desc.includes('밥') || desc.includes('밸리') || desc.includes('카페') || desc.includes('음식')) return '🍽️';
+  if (desc.includes('경조') || desc.includes('결혼') || desc.includes('부의') || desc.includes('돌')) return '🎁';
+  if (desc.includes('회식')) return '🍻';
+  if (desc.includes('렌트') || desc.includes('차') || desc.includes('교통')) return '🚗';
+  if (desc.includes('숙박') || desc.includes('호텔') || desc.includes('펜션')) return '🏨';
+  return '💸';
+}
+
+function getBalance() {
+  return db.ledger.reduce((acc, l) => acc + (l.type === 'income' ? l.amount : -l.amount), 0);
+}
+
+function renderBalance() {
+  const bal = getBalance();
+  const totalIn = db.ledger.filter(l => l.type === 'income').reduce((a, l) => a + l.amount, 0);
+  const totalOut = db.ledger.filter(l => l.type === 'expense').reduce((a, l) => a + l.amount, 0);
+  const pct = totalIn > 0 ? Math.round((1 - totalOut / totalIn) * 100) : 100;
+  document.getElementById('balanceDisplay').innerHTML = `
+    <div style="font-size:13px;opacity:0.65;margin-bottom:6px;letter-spacing:1px">현재 잔액</div>
+    <div class="balance-amount">${bal.toLocaleString()}원</div>
+    <div style="margin:18px auto 0;max-width:360px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;opacity:0.65;margin-bottom:6px">
+        <span>지출률 ${100-pct}%</span><span>잔여 ${pct}%</span>
+      </div>
+      <div style="background:rgba(255,255,255,0.2);border-radius:10px;height:8px;overflow:hidden">
+        <div style="background:linear-gradient(90deg,#ff8080,#ff4444);height:100%;border-radius:10px;width:${100-pct}%;transition:width .5s"></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:center;gap:40px;margin-top:20px">
+      <div style="text-align:center">
+        <div style="font-size:11px;opacity:0.6;margin-bottom:4px">총 수입</div>
+        <div style="font-size:16px;font-weight:700;color:#6ee8a0">+${totalIn.toLocaleString()}원</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,0.15)"></div>
+      <div style="text-align:center">
+        <div style="font-size:11px;opacity:0.6;margin-bottom:4px">총 지출</div>
+        <div style="font-size:16px;font-weight:700;color:#ff8080">-${totalOut.toLocaleString()}원</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,0.15)"></div>
+      <div style="text-align:center">
+        <div style="font-size:11px;opacity:0.6;margin-bottom:4px">입출금 건수</div>
+        <div style="font-size:16px;font-weight:700;color:var(--gold2)">${db.ledger.length}건</div>
+      </div>
+    </div>`;
+}
+
+function renderLedger() {
+  const tbody = document.getElementById('ledgerBody');
+  if (db.ledger.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="text-center" style="padding:24px;color:var(--sub)">내역이 없습니다.</td></tr>`;
+    return;
+  }
+  // 날짜순 정렬 후 누적잔액 계산
+  const sorted = db.ledger.map((l, i) => ({ ...l, idx: i }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+  let running = 0;
+  const withRunning = sorted.map(l => {
+    running += l.type === 'income' ? l.amount : -l.amount;
+    return { ...l, running };
+  });
+  // 필터 적용 후 최신순 표시
+  const filtered = (ledgerFilter === 'all' ? withRunning
+    : withRunning.filter(l => l.type === ledgerFilter)).reverse();
+
+  tbody.innerHTML = filtered.map(l => `
+    <tr style="${l.type === 'expense' ? 'background:#fff8f8' : ''}">
+      <td style="white-space:nowrap">${l.date.replaceAll('-','.')}</td>
+      <td style="${l.type==='expense'?'font-weight:600':''}">${l.type==='expense'?'💸 ':''}${l.desc}</td>
+      <td><span class="badge ${l.type === 'income' ? 'badge-paid' : 'badge-unpaid'}">${l.type === 'income' ? '입금' : '출금'}</span></td>
+      <td style="text-align:right;white-space:nowrap" class="${l.type === 'income' ? 'amount-in' : 'amount-out'}">
+        ${l.type === 'income' ? '+' : '-'}${l.amount.toLocaleString()}원
+      </td>
+      <td style="text-align:right;font-weight:600;white-space:nowrap">${l.running.toLocaleString()}원</td>
+      <td class="admin-only ${isAdmin ? '' : 'hidden'}">
+        <button class="btn btn-sm btn-danger" onclick="deleteLedger(${l.idx})">삭제</button>
+      </td>
+    </tr>`).join('');
+}
+
+function openLedgerModal(type) {
+  currentLedgerType = type;
+  document.getElementById('ledgerModalTitle').textContent = type === 'income' ? '입금 추가' : '지출 추가';
+  document.getElementById('l_date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('l_desc').value = '';
+  document.getElementById('l_amount').value = '';
+  openModal('ledgerModal');
+}
+
+function saveLedger() {
+  const date = document.getElementById('l_date').value;
+  const desc = document.getElementById('l_desc').value.trim();
+  const amount = parseInt(document.getElementById('l_amount').value);
+  if (!date || !desc || !amount) return alert('모든 항목을 입력하세요.');
+  db.ledger.push({ date, desc, amount, type: currentLedgerType, createdAt: new Date().toISOString() });
+  db.ledger.sort((a,b) => a.date.localeCompare(b.date));
+  saveData();
+  closeModal('ledgerModal');
+  renderFinance();
+  renderDashboard();
+}
+
+function deleteLedger(idx) {
+  if (!confirm('이 내역을 삭제하시겠습니까?')) return;
+  db.ledger.splice(idx, 1);
+  saveData();
+  renderFinance();
+  renderDashboard();
+}
+
+// ============================================================
+// GALLERY
+// ============================================================
+let pendingPhotoData = null;
+
+function renderGallery() {
+  const grid = document.getElementById('photoGrid');
+  if (db.photos.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="emoji">📷</div><p>아직 사진이 없어요. 첫 번째로 올려보세요!</p></div>`;
+    return;
+  }
+  grid.innerHTML = db.photos.slice().reverse().map((p, ri) => {
+    const i = db.photos.length - 1 - ri;
+    return `<div class="photo-item">
+      <img src="${p.src}" onclick="openLightbox('${p.src}')" style="cursor:pointer">
+      <button class="photo-del-btn ${isAdmin ? '' : 'hidden'}" onclick="deletePhoto(${i})">✕</button>
+      <div class="photo-info">
+        <div class="photo-caption">${p.caption || '사진'}</div>
+        <div>${p.uploader || '익명'} · ${p.date}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function uploadPhotos(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  pendingPhotos = files;
+  pendingPhotoIndex = 0;
+  processNextPhoto();
+  input.value = '';
+}
+
+function processNextPhoto() {
+  if (pendingPhotoIndex >= pendingPhotos.length) return;
+  const file = pendingPhotos[pendingPhotoIndex];
+  const reader = new FileReader();
+  reader.onload = e => {
+    pendingPhotoData = e.target.result;
+    document.getElementById('captionPreview').src = pendingPhotoData;
+    document.getElementById('cap_name').value = '';
+    document.getElementById('cap_desc').value = '';
+    openModal('captionModal');
+  };
+  reader.readAsDataURL(file);
+}
+
+function confirmPhotoUpload() {
+  if (!pendingPhotoData) return;
+  const photo = {
+    src: pendingPhotoData,
+    uploader: document.getElementById('cap_name').value.trim() || '익명',
+    caption: document.getElementById('cap_desc').value.trim(),
+    date: new Date().toLocaleDateString('ko-KR')
+  };
+  db.photos.push(photo);
+  saveData();
+  closeModal('captionModal');
+  pendingPhotoData = null;
+  pendingPhotoIndex++;
+  if (pendingPhotoIndex < pendingPhotos.length) {
+    processNextPhoto();
+  } else {
+    pendingPhotos = [];
+    renderGallery();
+  }
+}
+
+function cancelPhotoUpload() {
+  pendingPhotos = [];
+  pendingPhotoData = null;
+  closeModal('captionModal');
+}
+
+function deletePhoto(idx) {
+  if (!confirm('사진을 삭제하시겠습니까?')) return;
+  db.photos.splice(idx, 1);
+  saveData();
+  renderGallery();
+}
+
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// ============================================================
+// NOTICES
+// ============================================================
+function renderNotices() {
+  const list = document.getElementById('noticeList');
+  if (db.notices.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="emoji">📢</div><p>공지사항이 없습니다.</p></div>`;
+    return;
+  }
+  const sorted = [...db.notices].sort((a,b) => (b.pin?1:0)-(a.pin?1:0) || b.createdAt.localeCompare(a.createdAt));
+  list.innerHTML = sorted.map((n, i) => {
+    const realIdx = db.notices.indexOf(n);
+    return `<div class="card notice-item">
+      <div class="flex justify-between items-center">
+        <div class="notice-title">${n.pin ? '<span class="notice-pin">📌 고정</span>' : ''}${n.title}</div>
+        ${isAdmin ? `<button class="btn btn-sm btn-danger" onclick="deleteNotice(${realIdx})">삭제</button>` : ''}
+      </div>
+      <div class="notice-body">${n.body}</div>
+      <div class="notice-meta">${new Date(n.createdAt).toLocaleDateString('ko-KR')}</div>
+    </div>`;
+  }).join('');
+}
+
+function openNoticeModal() {
+  document.getElementById('n_title').value = '';
+  document.getElementById('n_body').value = '';
+  document.getElementById('n_pin').checked = false;
+  openModal('noticeModal');
+}
+
+function saveNotice() {
+  const title = document.getElementById('n_title').value.trim();
+  const body = document.getElementById('n_body').value.trim();
+  if (!title || !body) return alert('제목과 내용을 입력하세요.');
+  db.notices.push({ title, body, pin: document.getElementById('n_pin').checked, createdAt: new Date().toISOString() });
+  saveData();
+  closeModal('noticeModal');
+  renderNotices();
+  renderDashboard();
+}
+
+function deleteNotice(idx) {
+  if (!confirm('이 공지를 삭제하시겠습니까?')) return;
+  db.notices.splice(idx, 1);
+  saveData();
+  renderNotices();
+  renderDashboard();
+}
+
+// ============================================================
+// EVENTS
+// ============================================================
+function renderEvents() {
+  const list = document.getElementById('eventList');
+  if (db.events.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="emoji">📅</div><p>등록된 일정이 없습니다.</p></div>`;
+    return;
+  }
+  const sorted = [...db.events].sort((a,b) => a.date.localeCompare(b.date));
+  const today = new Date().toISOString().slice(0,10);
+  list.innerHTML = sorted.map((ev) => {
+    const realIdx = db.events.indexOf(ev);
+    const isPast = ev.date < today;
+    const d = new Date(ev.date + 'T00:00:00');
+    const monthStr = (d.getMonth()+1) + '월';
+    const dayStr = d.getDate();
+    return `<div class="card event-item" style="opacity:${isPast?0.6:1}">
+      <div class="event-date-box" style="background:${isPast?'var(--sub)':'var(--navy)'}">
+        <div class="month">${monthStr}</div>
+        <div class="day">${dayStr}</div>
+      </div>
+      <div class="event-info" style="flex:1">
+        <h4>${ev.title} ${isPast?'<span style="font-size:11px;color:var(--sub)">(종료)</span>':''}</h4>
+        ${ev.place ? `<p>📍 ${ev.place}</p>` : ''}
+        ${ev.desc ? `<p style="margin-top:4px;white-space:pre-wrap">${ev.desc}</p>` : ''}
+        <p style="margin-top:4px">${ev.date.replaceAll('-','.')}</p>
+      </div>
+      ${isAdmin ? `<button class="btn btn-sm btn-danger" onclick="deleteEvent(${realIdx})" style="align-self:flex-start">삭제</button>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function openEventModal() {
+  document.getElementById('ev_title').value = '';
+  document.getElementById('ev_date').value = '';
+  document.getElementById('ev_place').value = '';
+  document.getElementById('ev_desc').value = '';
+  openModal('eventModal');
+}
+
+function saveEvent() {
+  const title = document.getElementById('ev_title').value.trim();
+  const date = document.getElementById('ev_date').value;
+  if (!title || !date) return alert('제목과 날짜를 입력하세요.');
+  db.events.push({ title, date, place: document.getElementById('ev_place').value.trim(), desc: document.getElementById('ev_desc').value.trim() });
+  saveData();
+  closeModal('eventModal');
+  renderEvents();
+  renderDashboard();
+}
+
+function deleteEvent(idx) {
+  if (!confirm('이 일정을 삭제하시겠습니까?')) return;
+  db.events.splice(idx, 1);
+  saveData();
+  renderEvents();
+  renderDashboard();
+}
+
+// ============================================================
+// GUESTBOOK
+// ============================================================
+function renderGuestbook() {
+  const list = document.getElementById('guestbookList');
+  if (db.guestbook.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="emoji">💬</div><p>첫 번째 방명록을 남겨보세요!</p></div>`;
+    return;
+  }
+  list.innerHTML = [...db.guestbook].reverse().map((g, ri) => {
+    const realIdx = db.guestbook.length - 1 - ri;
+    const initial = g.name ? g.name[0] : '?';
+    return `<div class="guestbook-item">
+      <div class="guestbook-avatar">${initial}</div>
+      <div class="guestbook-content" style="flex:1">
+        <div class="author">${g.name}</div>
+        <div class="message">${g.message}</div>
+        <div class="date">${new Date(g.createdAt).toLocaleDateString('ko-KR')}</div>
+      </div>
+      ${isAdmin ? `<button class="btn btn-sm btn-danger" onclick="deleteGuestbook(${realIdx})">삭제</button>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function addGuestbook() {
+  const name = document.getElementById('gbName').value.trim();
+  const message = document.getElementById('gbMessage').value.trim();
+  if (!name || !message) return alert('이름과 메시지를 입력하세요.');
+  db.guestbook.push({ name, message, createdAt: new Date().toISOString() });
+  saveData();
+  document.getElementById('gbName').value = '';
+  document.getElementById('gbMessage').value = '';
+  renderGuestbook();
+}
+
+function deleteGuestbook(idx) {
+  if (!confirm('이 방명록을 삭제하시겠습니까?')) return;
+  db.guestbook.splice(idx, 1);
+  saveData();
+  renderGuestbook();
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  const total = db.members.length;
+  const paidAll = db.members.filter(m => getMemberStatus(m) === 'paid').length;
+  const unpaidMembers = db.members.filter(m => getMemberStatus(m) !== 'paid');
+  const balance = getBalance();
+
+  const heroStats = document.getElementById('heroStats');
+  if (heroStats) heroStats.innerHTML = `
+    <div class="hero-stat"><div class="hero-stat-num">${total}명</div><div class="hero-stat-label">총 회원</div></div>
+    <div class="hero-stat" style="border-left:1px solid rgba(255,255,255,0.2);padding-left:32px"><div class="hero-stat-num">${paidAll}명</div><div class="hero-stat-label">완납</div></div>
+    <div class="hero-stat" style="border-left:1px solid rgba(255,255,255,0.2);padding-left:32px"><div class="hero-stat-num" style="color:${balance>=0?'var(--gold2)':'#ff8080'}">${balance.toLocaleString()}원</div><div class="hero-stat-label">현재 잔액</div></div>`;
+
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card gold" onclick="showPage('members')" style="cursor:pointer">
+      <div class="stat-num">${total}</div><div class="stat-label">총 회원</div>
+      <div style="font-size:11px;color:#aaa;margin-top:6px">👆 탭하여 보기</div>
+    </div>
+    <div class="stat-card green" onclick="showPage('members');setTimeout(()=>filterByStatus('paid'),100)" style="cursor:pointer">
+      <div class="stat-num">${paidAll}</div><div class="stat-label">완납 회원</div>
+      <div style="font-size:11px;color:#aaa;margin-top:6px">👆 탭하여 보기</div>
+    </div>
+    <div class="stat-card red" onclick="showPage('members');setTimeout(()=>filterByStatus('unpaid'),100)" style="cursor:pointer">
+      <div class="stat-num">${unpaidMembers.length}</div><div class="stat-label">미납 회원</div>
+      <div style="font-size:11px;color:#aaa;margin-top:6px">👆 탭하여 보기</div>
+    </div>
+    <div class="stat-card ${balance >= 0 ? 'green' : 'red'}" onclick="showPage('finance')" style="cursor:pointer">
+      <div class="stat-num" style="font-size:22px">${balance.toLocaleString()}원</div><div class="stat-label">현재 잔액</div>
+      <div style="font-size:11px;color:#aaa;margin-top:6px">👆 탭하여 보기</div>
+    </div>`;
+
+  // Unpaid list
+  const unpaidDiv = document.getElementById('unpaidList');
+  if (unpaidMembers.length === 0) {
+    unpaidDiv.innerHTML = `<div style="text-align:center;padding:20px;color:var(--green)">🎉 모든 회원이 회비를 납부했습니다!</div>`;
+  } else {
+    unpaidDiv.innerHTML = unpaidMembers.map(m => {
+      const unpaidAmt = getMemberUnpaid(m);
+      const unpaidMonths = m.payments ? m.payments.filter(p => p === false).length : 0;
+      const status = getMemberStatus(m);
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f0f2f5">
+        <div>
+          <strong>${m.name}</strong>
+          <span class="badge ${status === 'partial' ? 'badge-partial' : 'badge-unpaid'}" style="margin-left:6px">${status === 'partial' ? '부분납' : '미납'}</span>
+        </div>
+        <div style="text-align:right">
+          <div style="color:var(--red);font-weight:700">-${unpaidAmt.toLocaleString()}원</div>
+          <div style="font-size:12px;color:var(--sub)">${unpaidMonths}개월 미납</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Next event
+  const today = new Date().toISOString().slice(0,10);
+  const nextEv = db.events.filter(e => e.date >= today).sort((a,b) => a.date.localeCompare(b.date))[0];
+  const nextEvDiv = document.getElementById('nextEventDash');
+  if (nextEv) {
+    const d = new Date(nextEv.date + 'T00:00:00');
+    const daysLeft = Math.ceil((d - new Date()) / 86400000);
+    nextEvDiv.innerHTML = `
+      <div style="font-size:22px;font-weight:800;color:var(--navy)">${nextEv.title}</div>
+      <div style="margin-top:6px;color:var(--sub)">${nextEv.date.replaceAll('-','.')}${nextEv.place ? ' · 📍 ' + nextEv.place : ''}</div>
+      <div style="margin-top:8px;color:var(--gold);font-weight:700">D-${daysLeft}</div>`;
+  } else {
+    nextEvDiv.innerHTML = `<div style="color:var(--sub);font-size:14px">등록된 일정이 없습니다.</div>`;
+  }
+
+  // Recent notice
+  const recentNoticeDiv = document.getElementById('recentNotice');
+  const recentN = [...db.notices].sort((a,b) => b.createdAt.localeCompare(a.createdAt))[0];
+  if (recentN) {
+    recentNoticeDiv.innerHTML = `
+      <div style="font-weight:700">${recentN.pin ? '📌 ' : ''}${recentN.title}</div>
+      <div style="font-size:13px;color:var(--sub);margin-top:4px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">${recentN.body}</div>
+      <div style="font-size:12px;color:#aaa;margin-top:6px">${new Date(recentN.createdAt).toLocaleDateString('ko-KR')}</div>`;
+  } else {
+    recentNoticeDiv.innerHTML = `<div style="color:var(--sub);font-size:14px">공지사항이 없습니다.</div>`;
+  }
+
+  // Responsive: stack columns on mobile
+  const cols = document.getElementById('dashCols');
+  if (window.innerWidth < 700) cols.style.gridTemplateColumns = '1fr';
+  else cols.style.gridTemplateColumns = '1fr 1fr';
+}
+
+// ============================================================
+// DRAG & DROP PHOTO
+// ============================================================
+const uploadArea = document.querySelector('.photo-upload-area');
+if (uploadArea) {
+  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.style.borderColor = 'var(--navy)'; });
+  uploadArea.addEventListener('dragleave', () => { uploadArea.style.borderColor = 'var(--border)'; });
+  uploadArea.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadArea.style.borderColor = 'var(--border)';
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    if (files.length) { pendingPhotos = files; pendingPhotoIndex = 0; processNextPhoto(); }
+  });
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderDashboard();
+</script>
+</body>
+</html>
